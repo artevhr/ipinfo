@@ -405,20 +405,20 @@ async function load() {
   skeleton();
 
   try {
-    const r = await fetch('https://ip-api.com/json/?lang=ru&fields=status,query,country,countryCode,regionName,city,isp,org,timezone');
+    const r = await fetch('https://ipapi.co/json/');
     const d = await r.json();
 
-    if (d.status === 'success') {
-      g('ip').textContent      = d.query       || '—';
-      g('country').textContent = ' ' + (d.country    || '—');
-      g('city').textContent    = d.city        || '—';
-      g('region').textContent  = d.regionName  || '—';
-      g('cc').textContent      = d.countryCode || '—';
-      g('isp').textContent     = d.isp         || '—';
-      g('org').textContent     = d.org         || '—';
-      g('tz').textContent      = d.timezone    || '—';
+    if (d.ip && !d.error) {
+      g('ip').textContent      = d.ip            || '—';
+      g('country').textContent = ' ' + (d.country_name  || '—');
+      g('city').textContent    = d.city           || '—';
+      g('region').textContent  = d.region         || '—';
+      g('cc').textContent      = d.country_code   || '—';
+      g('isp').textContent     = d.org            || '—';
+      g('org').textContent     = d.asn            || '—';
+      g('tz').textContent      = d.timezone       || '—';
 
-      const code = d.countryCode || '';
+      const code = d.country_code || '';
       if (code.length === 2) {
         g('flag').textContent = [...code.toUpperCase()]
           .map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65))
